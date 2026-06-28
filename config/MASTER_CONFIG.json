@@ -1,0 +1,191 @@
+{
+  "mode": "TRADING_ISOLATED",
+  "version": "2026-06-28",
+  "status": "ACTIVE",
+  "description": "Isolated trading mode - survives gateway restart, separate from Hermes main memory",
+  "api_keys": {
+    "mexc": {
+      "key_file": "/root/.hermes/secrets/mexc_api_key.txt",
+      "secret_file": "/root/.hermes/secrets/mexc_secret_key.txt",
+      "key": "mx0vglYKFYSflyEB2Y",
+      "secret": "a189628daae142c4a0a35e40b8e23c6d",
+      "ip_whitelist": "103.26.128.244",
+      "endpoints": {
+        "backup": "https://api.mexc.com",
+        "primary": "https://contract.mexc.com"
+      },
+      "signing_format": "HMAC-SHA256(secret, api_key + timestamp)",
+      "status": "ACTIVE - NEED IP WHITELIST",
+      "note": "Error 402 = IP not Whitelisted. Whitelist 103.26.128.244 or generate without IP restriction"
+    }
+  },
+  "providers": {
+    "primary": "atomesus",
+    "fallback_chain": [
+      "atomesus",
+      "openrouter",
+      "dahono"
+    ],
+    "atomesus": {
+      "key": "atms_sk_2f1ef9f5df5fe1041cc2de6ea0dd7625053b6838a36f4c0441fc263830382aad",
+      "base_url": "https://api.atomesus.com",
+      "models": [
+        "gpt-4",
+        "gpt-4o",
+        "gpt-4o-mini",
+        "claude-3-5-sonnet",
+        "claude-3-opus",
+        "gemini-pro",
+        "gemini-1.5-pro",
+        "llama-3.1-70b",
+        "deepseek-chat"
+      ],
+      "status": "WORKING"
+    },
+    "openrouter": {
+      "key": "sk-or-...f56f",
+      "base_url": "https://openrouter.ai/api/v1",
+      "status": "NEEDS_COOKIE_AUTH"
+    },
+    "dahono": {
+      "key": "dahono-cf2305a4e177d12cb09d70d96835cea2",
+      "base_url": "https://gateway.dahono.com/v1",
+      "status": "WORKING"
+    }
+  },
+  "trading_config": {
+    "capital": 5.1969,
+    "leverage": 30,
+    "max_positions": 2,
+    "tp_atr_mult": 6.0,
+    "sl_atr_mult": 3.0,
+    "session": "US_MORNING",
+    "session_utc": "13:00-21:00",
+    "session_wib": "20:00-04:00",
+    "current_time_utc": "16:02",
+    "current_time_wib": "23:02",
+    "session_active": true
+  },
+  "strategy": {
+    "whale_push": true,
+    "accumulation": true,
+    "mata_elang": true,
+    "smart_tp_sl": true,
+    "partial_tp": [
+      [
+        0.05,
+        0.25
+      ],
+      [
+        0.1,
+        0.25
+      ],
+      [
+        0.2,
+        0.25
+      ],
+      [
+        0.35,
+        0.25
+      ]
+    ],
+    "min_score": 8
+  },
+  "pairs": {
+    "preferred": [
+      "O_USDT",
+      "XPL_USDT",
+      "BLESS_USDT",
+      "S_USDT",
+      "BICO_USDT",
+      "PUMPFUN_USDT",
+      "AIN_USDT",
+      "EDEN_USDT"
+    ],
+    "blacklist": [
+      "BTC_USDT",
+      "ETH_USDT",
+      "SOL_USDT",
+      "DOGE_USDT",
+      "XRP_USDT",
+      "ADA_USDT",
+      "LINK_USDT",
+      "LTC_USDT",
+      "AVAX_USDT",
+      "DOT_USDT",
+      "MATIC_USDT",
+      "ATOM_USDT",
+      "UNI_USDT",
+      "TRX_USDT",
+      "NEAR_USDT",
+      "APT_USDT",
+      "ARB_USDT",
+      "OP_USDT",
+      "ONE_USDT",
+      "FRAX_USDT",
+      "USDC_USDT",
+      "WBTC_USDT"
+    ]
+  },
+  "files_map": {
+    "main_bot": "/root/mexc-scalper/predator_v5.py",
+    "smart_tp_sl": "/root/mexc-scalper/smart_tp_sl.py",
+    "session_filter": "/root/mexc-scalper/session_filter.py",
+    "exchange_sl": "/root/mexc-scalper/exchange_sl.py",
+    "order_flow": "/root/mexc-scalper/order_flow.py",
+    "phase_tracker": "/root/mexc-scalper/challenge_phase_tracker.py",
+    "trading_mode_md": "/root/mexc-scalper/TRADING_MODE.md",
+    "consolidated_memory": "/root/mexc-scalper/memory/CONSOLIDATED_MEMORY.json",
+    "log_file": "/root/.hermes/logs/mexc_predator_v5.log",
+    "state_dir": "/root/mexc-scalper/state",
+    "memory_file": "/root/mexc-scalper/memory/trading_memory.json"
+  },
+  "skills": {
+    "active": [
+      "konsorsium-5-agent",
+      "mata-elang-integration",
+      "trading-mode-isolated"
+    ],
+    "dir": "/root/mexc-scalper/skills",
+    "load_command": "skill_view(name='trading-mode-isolated')"
+  },
+  "commands": {
+    "start_bot": "cd /root/mexc-scalper && python3 -u predator_v5.py 2>&1",
+    "check_status": "ps aux | grep predator_v5 | grep -v grep",
+    "check_log": "tail -50 /root/.hermes/logs/mexc_predator_v5.log",
+    "check_balance": "python3 /root/mexc-scalper/SINGLE_SOURCE_OF_TRUTH.py --balance",
+    "kill_bot": "pkill -f predator_v5",
+    "view_this_file": "cat /root/TRADING_MODE_ISOLATED/config/MASTER_CONFIG.json"
+  },
+  "user": {
+    "name": "Tuan Muda",
+    "never_call": "bapak",
+    "bahasa": "Indonesia",
+    "mantras": {
+      "sampai_berhasil": "relentless persistence, no excuses",
+      "cari_sendiri": "search skills/memory/session_search first, never ask",
+      "jangan_banyak_alasan": "solve it dont explain why hard",
+      "gas": "direct execution immediately",
+      "gas_semuanya": "do ALL options simultaneously"
+    }
+  },
+  "safety": {
+    "never_restart_mid_trade": true,
+    "close_positions_before_restart": true,
+    "backup_before_edit": true,
+    "zero_bugs_tolerance": true
+  },
+  "known_issues": {
+    "logging": "Log file at /root/.hermes/logs/mexc_predator_v5.log, DEBUG hidden (INFO level)",
+    "chromedriver": "Incompatible with Termux ARM - cannot use Selenium",
+    "siliconflow": "Requires Chinese ID - NOT BYPASSABLE",
+    "social_media": "Phone verification DESIGNED - not bypassable",
+    "cavoti": "Connection timeout - may be offline"
+  },
+  "session_history": {
+    "last_trade": "2026-06-28",
+    "total_trades_session": 0,
+    "win_rate": "N/A",
+    "pnl": 0
+  }
+}
